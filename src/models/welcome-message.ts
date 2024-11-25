@@ -1,5 +1,7 @@
 import { Model, model, Schema } from "mongoose";
-import { title } from "process";
+import { getVisitor } from "../controllers/actions.controller";
+import { IVisitor } from "./visitor";
+
 
 export interface IWelcomeMessage{
     title: string;
@@ -16,8 +18,12 @@ const welcomeMessageSchema = new Schema<IWelcomeMessage, WelcomeMessageModel>({
 });
 welcomeMessageSchema.static('getWelcomeMessage', async function getWelcomeMessage() {
     try {
-        const welcomeMessage: IWelcomeMessage[] =  await this.find({});
-        return welcomeMessage[0];
+        const welcomeMessages: IWelcomeMessage[] =  await this.find({});
+        const welcomeMessage: IWelcomeMessage = welcomeMessages[0];
+        const visitor: IVisitor | undefined = await getVisitor();
+        welcomeMessage.title += ` ${visitor!.name}`;
+        welcomeMessage.message += ` and ${visitor!.nationality}`;
+        return welcomeMessage;
     } catch (error) {
         console.log(error);
         throw error;

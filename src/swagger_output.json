@@ -1,0 +1,78 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "v1.0.0",
+    "title": "Adapptor Demo API Server",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/welcome": {
+      "get": {
+        "tags":["welcome"],
+        "summary": "Returns the welcome title and message",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/actions": {
+      "post": {
+        "tags":["actions"],
+        "summary": "Adds a visitor",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "string"
+                  },
+                  "nationality": {
+                    "example": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
+

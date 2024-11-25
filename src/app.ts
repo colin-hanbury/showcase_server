@@ -1,9 +1,11 @@
-import express, { Express, } from "express";
+import express, { Express, Request } from "express";
 import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
-import welcomeRoutes from "../routes/welcome.routes";
 import mongoose from "mongoose";
-import actionsRoutes from "../routes/actions.routes";
+import {routes} from "./routes";
+import swaggerUi from "swagger-ui-express";
+import swaggerOutput from "./swagger_output.json";
+
 
 
 dotenv.config();
@@ -19,15 +21,18 @@ mongoose.connect(dbURL).then(() =>{
 
 const app: Express = express();
 
-const corsOptions: CorsOptions = {
-    origin: "http://localhost:8081"
-  };
-app.use(cors(corsOptions));
+// const corsOptions: CorsOptions = {
+//     origin: "http://localhost:4000"
+//   };
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/welcome", welcomeRoutes);
-app.use("/actions", actionsRoutes);
+app.use("/", routes);
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerOutput));
+
 
 app.listen(port, () => {
     console.log(`[server]: Server is running on port ${port}`);
 });
+
+export default app;
