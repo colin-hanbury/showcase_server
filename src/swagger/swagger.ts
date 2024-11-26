@@ -8,21 +8,15 @@ const doc = {
     },
     servers: [
         {
-            url: 'http://localhost:4000',
+            url: 'http://localhost:8080',
             description: ''
         },
     ],
     components: {
-        securitySchemes: {
-            // bearerAuth: {
-            //     type: 'http',
-            //     scheme: 'bearer',
-            // }
-        }
     }
 };
 
 const outputFile = './swagger_output.json';
-const endpointsFiles = ['./src/routes/index.ts'];
+// const endpointsFiles = ['/actions', 'welcome'];
 
-swaggerAutogen({openapi: '3.0.0'})(outputFile, endpointsFiles, doc);
+swaggerAutogen({openapi: '3.0.0'})(outputFile, doc);

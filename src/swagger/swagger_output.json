@@ -15,8 +15,8 @@
     "/welcome": {
       "get": {
         "tags":["welcome"],
-        "summary": "Returns the welcome title and message",
-        "description": "",
+        "summary": "Returns the welcome message",
+        "description": "Searches for user details and returns personalised message if they exist, otherwise returns basic welcome message",
         "responses": {
           "200": {
             "description": "Success"
@@ -33,7 +33,7 @@
     "/actions": {
       "post": {
         "tags":["actions"],
-        "summary": "Adds a visitor",
+        "summary": "Adds a user",
         "description": "",
         "responses": {
           "200": {

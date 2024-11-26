@@ -1,30 +1,23 @@
 import { Request, Response } from "express";
-import Visitor from "../models/visitor";
+import { User } from "../entities/user";
+import { inject } from "inversify";
+import { BaseHttpController, controller, httpPost } from "inversify-express-utils";
+import { UserService } from "../application/services/user.service";
 
-export async function addVisitor(req: Request, res: Response){
-    try {
-        const { name, nationality } = req.body;
-        console.log(`name: ${name}`);
-        const visitor = await Visitor.addVisitor(name, nationality);
-        console.log(`visitor: ${visitor}`);
-        if(!visitor){
-            console.log(`error: ${visitor}`);
-            return res.status(400).json({success: false});
+@controller('/actions')
+export class ActionsController extends BaseHttpController {
+
+    constructor(@inject(UserService) private readonly userService: UserService) { super();}
+
+    @httpPost("/")
+    async addUser(req: Request, res: Response){
+        try {
+            const { name, nationality } = req.body;
+            const user: User = await this.userService.addUser(name, nationality);
+            res.status(200).json({user});
+        } catch (error) {
+            console.log(error);
+            return res.status(500);
         }
-        return res.status(200).json({success: true});
-    } catch (error) {
-        console.log(error);
-        return res.status(500);
-    }
-}
-
-export async function getVisitor(){
-    try {
-        const visitor = await Visitor.getVisitor();
-
-        return visitor;
-    } catch (error) {
-        console.log(error);
-        return;
     }
 }
