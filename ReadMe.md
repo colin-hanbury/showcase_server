@@ -32,28 +32,26 @@ Server to document and implement apis for showcase app
 ## Tech
 
 ### NodeJs (TypeScript)
-
-* The classic
-    * Lots of libraries and support abvailable
-    * familiar to me
-* Somewhat lightweight
-* Decent errorhandling capabilities
-* easy to plug-in with backend
+* Relatively fast
+* Supports typescript (reduces likelyhood of bugs)
+* Efficient at handling multiple requests
+* Rich ecosystem (lots of libraries)
 
 ### MongoDb
-
-* Quick to build
-* Easy to deploy locally or in cloud environments
-* Can be scaled easily horizontally
-* Not as clean however Mongoose aids us with this
+* NoSQL database
+* Horizontally scalable
+* Quick to get up and running
 
 ### Docker
+* containerisation
+* easier to ship to cloud or onpremise
 
 ## Google Cloud
-* Serverless
-    * Quick and easy deplyment 
-* Used Google Cloud functions instead of AWS lambdas
-    * Had an issue with AWS verifying my identity for the free trial
+* Cloud Run
+    * serverless
+    * free at this scale
+* Arifact Registry
+    * easy deployment to cloud run
 
 ### Security
 * Cors
@@ -65,9 +63,8 @@ Server to document and implement apis for showcase app
     * Containerised
     * Easy to ship 
 * Separation of concerns
-    * Readability
-    * Clean
-    * Facilitates easier collaboration for developers 
+    * Dependency injection
+    * Improved readability
 * Open source
     * Not tied to a specific provider
 
@@ -77,9 +74,10 @@ Server to document and implement apis for showcase app
     * Registration / login
     * JWT
     * Password hashing
-    * SSL certs
-    * Admin apis for modifying backend data that shouldn't be available to modify by the public
 * NGINX
     * Reverse proxy
     * Load balancing
-* Limiters on query results
+* Tidy up
+    * more consistent naming convention
+    * more appropriately named endpoints
+    * more testint and test cases
