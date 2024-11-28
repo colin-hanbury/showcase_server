@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { User } from "../entities/user";
+import { User } from "../../../shared/user/entities/user";
 import { inject } from "inversify";
 import { BaseHttpController, controller, httpPost } from "inversify-express-utils";
-import { UserService } from "../application/services/user.service";
+import { UserService } from "../../../shared/user/services/user.service";
 
 @controller('/actions')
 export class ActionsController extends BaseHttpController {

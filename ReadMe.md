@@ -6,27 +6,20 @@ Server to document and implement apis for showcase app
 
 ### Locally
 
-#### Database
+* Pull down git repo:
+    git pull https://github.com/colin-hanbury/showcase_server
 
-* Install mongosh
-    * https://www.mongodb.com/docs/mongodb-shell/install/
-* Pull down the docker image of Mongodb
-    * MongoDB community Edition
-
-
+* Start up docker engine
+    * Open Docker Desktop on PC or Mac
+    * https://docs.docker.com/desktop/
 
 
-#### Node
+* Build and run server and db
+    * Execute the following cmd in the root dir of the project you pulled down:
+    docker compose up
 
-* Add the following env variable to your local .env file
-    * ATLAS_URI=mongodb://localhost:27017/localv2
-* npm i
-* npm run dev
-
-##### Optional (Run docker locally)
-* docker build . -t showcase-server
-* docker run -p 8080:8080 -e ATLAS_URI=mongodb://localhost:27017/localv2 showcase-server
-
+* Verify locally with 200 response and welcome message:
+    http://localhost:8080/welcome
 
 
 ## Tech

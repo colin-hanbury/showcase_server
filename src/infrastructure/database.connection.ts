@@ -9,7 +9,7 @@ export class DatabaseConnection {
   public async initConnection(): Promise<void> {
     dotenv.config();
 
-    const dbURL = process.env.ATLAS_URI || "";
+    const dbURL = process.env.MONGODB_URI || "";
     await this.connect(dbURL);
   }
 
@@ -27,10 +27,10 @@ export class DatabaseConnection {
   }
 
   public async setAutoReconnect(): Promise<void> {
-    const dbURL = process.env.ATLAS_URI || "";
+    const dbURL = process.env.MONGODB_URI || "";
     await this.connect(dbURL);
     connection.on('disconnected', () => {
-        console.log('mongoose disconnected trying to reconnect...');
+        console.log(`mongoose disconnected trying to reconnect on ${dbURL}`);
       this.connect(dbURL);
     });
   }
