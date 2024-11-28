@@ -2,9 +2,9 @@ import request from "supertest";
 import { Container } from "inversify";
 import express from "express"; // Import express to add middleware
 import { InversifyExpressServer } from "inversify-express-utils";
-import { UserService } from "../../../application/services/user.service";
-import { User } from "../../../entities/user";
-import { ActionsController } from "../../../controllers/actions.controller";
+import { UserService } from "../../../../shared/user/services/user.service";
+import { User } from "../../../../shared/user/entities/user";
+import { ActionsController } from "../../../../features/actions/controllers/actions.controller";
 
 // Mock UserService
 const mockUserService = {
@@ -19,14 +19,14 @@ container.bind<ActionsController>(ActionsController).to(ActionsController);
 // Create Express App with JSON middleware
 const server = new InversifyExpressServer(container);
 server.setConfig((app) => {
-  app.use(express.json()); // Add JSON parser middleware
+  app.use(express.json()); 
 });
 const app = server.build();
 
 describe("ActionsController", () => {
   describe("POST /actions", () => {
     beforeEach(() => {
-      jest.clearAllMocks(); // Reset mock calls before each test
+      jest.clearAllMocks(); 
     });
 
     it("should return 200 and the created user on success", async () => {

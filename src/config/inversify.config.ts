@@ -1,6 +1,6 @@
 import { Container } from "inversify";
-import '../controllers/actions.controller'
-import '../controllers/welcome.controller'
+import '../features/actions/controllers/actions.controller'
+import '../features/welcome/controllers/welcome.controller'
 
 const container = new Container( {autoBindInjectable: true});
 

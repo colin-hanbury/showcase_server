@@ -1,11 +1,11 @@
 
-import { UserService } from "../../application/services/user.service";
-import { User } from "../../entities/user";
-import { UserInput } from "../../entities/user.input";
-import { UserRepository } from "../../infrastructure/database/repos/user.repo.mongo";
+import { UserService } from "../../../../shared/user/services/user.service";
+import { User } from "../../../../shared/user/entities/user";
+import { UserInput } from "../../../../shared/user/entities/user.input";
+import { UserRepository } from "../../../../shared/user/repos/user.repo.mongo";
 import "reflect-metadata";
 
-jest.mock("../../infrastructure/database/repos/user.repo.mongo");
+jest.mock("../../../../shared/user/repos/user.repo.mongo");
 
 describe("UserService", () => {
   let userService: UserService;

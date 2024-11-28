@@ -1,7 +1,7 @@
 import { IUserRepository } from "./user-repo.interface";
-import { User } from "../../../entities/user";
-import { userDAO } from "../user/user.dao";
-import { UserInput } from "../../../entities/user.input";
+import { User } from "../entities/user";
+import { userDAO } from "../entities/user.dao";
+import { UserInput } from "../entities/user.input";
 import { injectable } from "inversify";
 
 @injectable()

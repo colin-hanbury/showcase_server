@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
-import { User } from "../../entities/user";
-import { UserInput } from "../../entities/user.input";
-import { UserRepository } from "../../infrastructure/database/repos/user.repo.mongo";
+import { User } from "../entities/user";
+import { UserInput } from "../entities/user.input";
+import { UserRepository } from "../repos/user.repo.mongo";
 import { IUserService } from "./user.interface.service";
 
 @injectable()

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserService } from "../application/services/user.service";
+import { UserService } from "../../../shared/user/services/user.service";
 import { BaseHttpController, controller, httpGet } from "inversify-express-utils";
 import { inject } from "inversify";
 

@@ -1,5 +1,5 @@
-import { User } from '../../../entities/user'
-import { UserInput } from '../../../entities/user.input'
+import { User } from '../entities/user'
+import { UserInput } from '../entities/user.input'
 
 export interface IUserRepository {
   addUser(userInput: UserInput): Promise<User>

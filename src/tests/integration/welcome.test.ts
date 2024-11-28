@@ -1,60 +1,73 @@
 import request from "supertest";
-import { InversifyExpressServer } from "inversify-express-utils";
 import { Container } from "inversify";
-import { UserService } from "../../application/services/user.service";
-import { User } from "../../entities/user";
-import { UserRepository } from "../../infrastructure/database/repos/user.repo.mongo";
-import { userDAO } from "../../infrastructure/database/user/user.dao";
+import express from "express";
+import { InversifyExpressServer } from "inversify-express-utils";
+import { WelcomeController } from "../../features/welcome/controllers/welcome.controller";
+import { UserService } from "../../shared/user/services/user.service";
 
+const mockUserService = {
+  getUserWelcomeMessage: jest.fn(),
+};
 
-// Mocking dependencies
-jest.mock("../user/user.dao", () => ({
-  create: jest.fn(),
-  findById: jest.fn(),
-}));
+const container = new Container();
+container.bind<UserService>(UserService).toConstantValue(mockUserService as unknown as UserService);
+container.bind<WelcomeController>(WelcomeController).toSelf();
+
+const server = new InversifyExpressServer(container);
+server.setConfig((app) => {
+  app.use(express.json());
+});
+const app = server.build();
 
 describe("WelcomeController Integration Tests", () => {
-  let server: InversifyExpressServer;
-  let container: Container;
-
-  beforeAll(() => {
-    // Set up the Inversify container
-    container = new Container();
-    container.bind(UserRepository).toSelf();
-    container.bind(UserService).toSelf();
-
-    // Set up the server
-    server = new InversifyExpressServer(container);
-  });
-
   beforeEach(() => {
-    // Reset mock calls before each test
-    jest.clearAllMocks();
+    jest.clearAllMocks(); 
   });
 
   it("should return a welcome message for a valid user id", async () => {
-    const mockUser: User = { _id: "1", name: "Alice", nationality: "American" };
-    (userDAO.findById as jest.Mock).mockResolvedValue(mockUser);
+    const mockMessage = "Welcome back Alice my American friend";
+    const mockUserId = "1";
 
-    const response = await request(server.build())
+   
+    mockUserService.getUserWelcomeMessage.mockResolvedValue(mockMessage);
+
+    
+    const response = await request(app)
       .get("/welcome")
-      .query({ id: "1" });
+      .query({ id: mockUserId });
 
     expect(response.status).toBe(200);
-    expect(response.body.message).toBe(`Welcome Alice`);
-    expect(userDAO.findById).toHaveBeenCalledWith("1");
+    expect(response.body.message).toBe(mockMessage);
+    expect(mockUserService.getUserWelcomeMessage).toHaveBeenCalledWith(mockUserId);
   });
 
-  it("should return status 500 if an error occurs in the service", async () => {
-    const mockError = new Error("Database error");
-    (userDAO.findById as jest.Mock).mockRejectedValue(mockError);
+  it("should return 500 if an error occurs in the UserService", async () => {
+    const mockUserId = "1";
+    const mockError = new Error("User not found");
 
-    const response = await request(server.build())
+    mockUserService.getUserWelcomeMessage.mockRejectedValue(mockError);
+
+    const response = await request(app)
       .get("/welcome")
-      .query({ id: "1" });
+      .query({ id: mockUserId });
 
     expect(response.status).toBe(500);
     expect(response.body.message).toBeUndefined();
-    expect(userDAO.findById).toHaveBeenCalledWith("1");
+    expect(mockUserService.getUserWelcomeMessage).toHaveBeenCalledWith(mockUserId);
+  });
+
+  it("should return a default message if no user id is provided", async () => {
+    const mockMessage = "Welcome"; 
+    const mockUserId = "";
+
+    mockUserService.getUserWelcomeMessage.mockResolvedValue(mockMessage);
+
+    const response = await request(app)
+      .get("/welcome")
+      .query({ id: mockUserId });
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe(mockMessage);
+    expect(mockUserService.getUserWelcomeMessage).toHaveBeenCalledWith(mockUserId);
   });
 });
